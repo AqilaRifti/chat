@@ -12,7 +12,6 @@ from package.embeddings import (
     LibraryAnswerResponse
 )
 from package.generate_response import fireworks_chat_provider
-from st_copy_to_clipboard import st_copy_to_clipboard
 
 PROMPT_TEMPLATE = """
 Answer the question based only on the following context:
@@ -165,7 +164,6 @@ def answer_generator(messages: List[str]):
         yield word
         time.sleep(0.001)
 
-st_copy_to_clipboard("Copy this to clipboard")
 
 if prompt := st.chat_input():
     send_message({"role": "user", "content": prompt})
