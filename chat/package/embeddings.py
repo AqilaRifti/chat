@@ -5,11 +5,11 @@ from ai21.models.responses.library_answer_response import LibraryAnswerResponse
 RAG_SD_KURIKULUM_2013_API_KEY = ""
 RAG_SD_KURIKULUM_KURMER_API_KEY = ""
 # Access Type B (Expired 16 October 2024)
-RAG_SMP_KURIKULUM_2013_API_KEY = "5BnO6LR6salD6S3mqgf6p89TAKjTkjW1"
-RAG_SMP_KURIKULUM_MERDEKA_API_KEY = "PGPQqagV7zGJZvZOVz8oCLLNu2Xey01A"
+RAG_SMP_KURIKULUM_2013_API_KEY = "xlDvCjQch5NcZyokpRheEvc3l8QfEU4j"
+RAG_SMP_KURIKULUM_MERDEKA_API_KEY = "pgKtMOzWF6itfZdMXKzkpqcelNcjoYRA"
 # Access Type C (Expired 16 October 2024)
 RAG_SMA_KURIKULUM_2013_API_KEY = "t8pGcgDzZEGbU0TTg5TjSoMILqSCQIYD"
-RAG_SMA_KURIKULUM_MERDEKA_API_KEY = "B9QihaZulsPUfgXCIzRPB00bTQ2dcpOI"
+RAG_SMA_KURIKULUM_MERDEKA_API_KEY = "2tyFM3aNl2HqV26326ZkzeDG2CPwAIZs"
 
 def get_embedding_base(query: str, api_key: str) -> LibraryAnswerResponse:
     client = AI21Client(
