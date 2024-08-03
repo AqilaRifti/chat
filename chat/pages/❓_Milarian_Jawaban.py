@@ -105,7 +105,19 @@ with st.container(border=True):
             ),
             label_visibility="collapsed"
         )
-    else:
+    if selected_jenjang == "SD":
+        selected_kurikulum = kurikulum_option.selectbox(
+            "kurikulum",
+            ("Hybrid", "Basic"),
+            label_visibility="collapsed"
+        )
+    if selected_jenjang == "SMP":
+        selected_kurikulum = kurikulum_option.selectbox(
+            "kurikulum",
+            ("Kurmer", "K13"),
+            label_visibility="collapsed"
+        )
+    if selected_jenjang == "SMA":
         selected_kurikulum = kurikulum_option.selectbox(
             "kurikulum",
             ("Kurmer", "K13"),
@@ -183,4 +195,4 @@ for index, message in enumerate(st.session_state["milarian_jawaban_messages"]):
         else:
             with st.chat_message("assistant"):
                 st.write(message["content"])
-                st.write(":blue[**Bersumber dari Buku Paket Kementerian Pendidikan Dan Kebudayaan Indonesia**]Bersumber dari Buku Paket Kementerian Pendidikan Dan Kebudayaan Indonesia**")
+                st.write(":blue[**Bersumber dari Buku Paket Kementerian Pendidikan Dan Kebudayaan Indonesia**]Bersumber dari Buku Paket Kementerian Pendidikan Dan Kebudayaan Indonesia**]")

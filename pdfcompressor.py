@@ -12,12 +12,12 @@ def get_all_file_paths(directory) -> List[os.PathLike | str]:
     return file_paths
 
 # Example usage:
-pdf_exe = "~/pdfsizeopt/pdfsizeopt"
-target_directory = "../ARCHIVED_BIA/sources/Buku Paket SMA"
+pdf_exe = "~/executables/pdfsizeopt/pdfsizeopt"
+target_directory = "./resources/Buku Paket SD"
 all_files = get_all_file_paths(target_directory)
 # Print all file paths
 slash = "/"
 for file in all_files:
     if file.endswith(".pdf"):
-        if not pathlib.Path(f"resources/{file.split('/', maxsplit=3)[-1]}").is_file():
-            os.system(f"{pdf_exe} \"{file}\" \"resources/{file.split('/', maxsplit=3)[-1]}\"")
+        if not pathlib.Path(f"new/{file.split('/', maxsplit=3)[-1]}").is_file():
+            os.system(f"{pdf_exe} \"{file}\" \"new/{file.split('/', maxsplit=3)[-1]}\"")
