@@ -131,10 +131,10 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 THINKING_MESSAGE = "Sedang berpikir..."
 
 def generate_prompt_indonesia(query: str) -> str:
-    embedding: LibraryAnswerResponse = eval(f"get_embedding_content_{selected_kurikulum.lower()}_{selected_jenjang.lower()}(query).answer")
+    embedding: LibraryAnswerResponse = eval(f"get_embedding_content_{selected_kurikulum.lower()}_{selected_jenjang.lower()}(query)")
     if embedding.answer_in_context:
         return INDONESIAN_PROMPT_TEMPLATE.format(
-            context=embedding,
+            context=embedding.answer,
             question=query
         )
     else:
