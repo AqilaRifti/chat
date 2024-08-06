@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Animation</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body, html {
+    height: 200%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+.container {
+    text-align: center;
+    position: relative;
+    top: 50vh;
+    z-index: 10;
+}
+
+.animated-button {
+    padding: 20px 40px;
+    font-size: 24px;
+    border: 2px solid #333;
+    background-color: white;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.animated-button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: #333;
+    transition: width 1s;
+    z-index: -1;
+}
+
+.animated-button:hover::after {
+    width: 100%;
+}
+
+.images-container {
+    position: relative;
+    width: 100%;
+    height: 250vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    pointer-events: none;
+}
+
+.hidden-image {
+    width: 90%;
+    max-width: 300px;
+    position: absolute;
+    transition: transform 1.5s ease-out;
+}
+
+.hidden-image.left {
+    left: 90%;
+    transform: translateY(-250vh);
+}
+
+.hidden-image.right {
+    right: 90%;
+    transform: translateY(-250vh);
+}
+
+.scrolled #image1 {
+    transform: translateY(0);
+    transition-delay: 0s;
+}
+
+.scrolled #image2 {
+    transform: translateY(0);
+    transition-delay: 0.5s;
+}
+
+.scrolled #image3 {
+    transform: translateY(0);
+    transition-delay: 1s;
+}
+
+.scrolled #image4 {
+    transform: translateY(0);
+    transition-delay: 1.5s;
+}
+
+.scrolled #image5 {
+    transform: translateY(0);
+    transition-delay: 2s;
+}
+
+.scrolled #image6 {
+    transform: translateY(0);
+    transition-delay: 2.5s;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="animated-button">Scroll Down</button>
+    </div>
+    <div class="images-container">
+        <img src="assets/1.png" alt="Hidden Image 1" class="hidden-image left" id="image1">
+        <img src="assets/2.png" alt="Hidden Image 2" class="hidden-image right" id="image2">
+        <img src="assets/3.png" alt="Hidden Image 3" class="hidden-image left" id="image3">
+        <img src="assets/4.png" alt="Hidden Image 4" class="hidden-image right" id="image4">
+        <img src="assets/5.png" alt="Hidden Image 5" class="hidden-image left" id="image5">
+        <img src="assets/6.png" alt="Hidden Image 6" class="hidden-image right" id="image6">
+    </div>
+    <script>
+        document.addEventListener("scroll", function() {
+    const scrolled = window.scrollY;
+    const container = document.querySelector(".images-container");
+
+    if (scrolled > 0) {
+        container.classList.add("scrolled");
+    } else {
+        container.classList.remove("scrolled");
+    }
+});
+
+    </script>
+</body>
+</html>

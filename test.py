@@ -3,7 +3,7 @@ from langchain_chroma import Chroma
 from langchain_fireworks import FireworksEmbeddings
 from langchain_community.document_loaders import PyPDFium2Loader
 from typing import List
-
+# ZXcm4g_fWxyLi_B
 def get_all_file_paths(directory) -> List[os.PathLike | str]:
     file_paths = []
     for root, directories, files in os.walk(directory):
@@ -15,7 +15,7 @@ def get_all_file_paths(directory) -> List[os.PathLike | str]:
 
 
 data = []
-target_directory = "./resources/Buku Paket SMK/tata_boga"
+target_directory = "./resources/Buku Paket SMK/administrasi_perkantoran"
 all_files = get_all_file_paths(target_directory)
 
 for file in all_files:
@@ -37,7 +37,7 @@ def batch_documents(documents, batch_size):
 
 # Load existing database or create a new one
 try:
-    db = Chroma.load(persist_directory="./smk_tata_boga.db")
+    db = Chroma.load(persist_directory="./smk_administrasi_perkantoran.db")
 except:
     db = Chroma(embedding_function=embedding_function, persist_directory="./smk_tata_boga.db")
 
