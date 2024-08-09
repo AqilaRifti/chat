@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <div class="scene">
+        <div class="carousel">
+            <div class="card"><img src="assets/entp.svg" width="310" alt=""></div>
+            <div class="card"><img src="assets/intj.svg" width="310" alt=""></div>
+            <div class="card"><img src="assets/logical.svg" width="310" alt=""></div>
+            <div class="card"><img src="assets/enfj.svg" width="310" alt=""></div>
+            <div class="card"><img src="assets/istp.svg" width="310" alt=""></div>
+            <div class="card"><img src="assets/auditori.svg" width="310" alt=""></div>
+        </div>
+    </div>
+    <main>
+    <h1 class="title interesting-title">Yuk ambil tes GRATIS!</h1>
+        <section class="action">
+            <button class="black-button">Ambil Tes Kepribadian</button>
+            <button class="black-button">Ambil Tes Gaya Belajar</button>
+        </section>
+    </main>
+<style>
+main {
+    color: white;
+    margin: 5rem;
+    margin-top: 26rem;
+    z-index: 9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+button {
+    font-size: 2.5rem;
+    padding: 3rem;
+    border-radius: 1rem;
+    background: #333;
+    box-shadow: none;
+    border: none;
+    color: white;
+}
+.title {
+    font-size: 4.3rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #151414;
+    margin: 0;
+}
+.interesting-title {
+    font-weight: bold;
+    background: linear-gradient(45deg, #bef5fb, #7ee6d3, #9a8bff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    animation: gradientAnimation 5s ease infinite;
+}
+.scene {
+    perspective: 1000px;
+    position: absolute;
+}
+
+.carousel {
+    margin-top: 1.5rem;
+    position: relative;
+    width: 310px; /* Adjust as needed */
+    height: 350px; /* Adjust as needed */
+    transform-style: preserve-3d;
+    transform: rotateY(0deg);
+    transition: transform 1s;
+    transform-origin: center center; /* Ensure rotation is centered */
+}
+
+.card {
+    position: absolute;
+    color: #333;
+    transform-origin: center center; /* Ensure correct rotation origin */
+    backface-visibility: hidden; /* Hide backface of the card */
+}
+
+/* Position each card in a circle */
+.card:nth-child(1) { transform: rotateY(0deg) translateZ(275px); }
+.card:nth-child(2) { transform: rotateY(60deg) translateZ(275px); }
+.card:nth-child(3) { transform: rotateY(120deg) translateZ(275px); }
+.card:nth-child(4) { transform: rotateY(180deg) translateZ(275px); }
+.card:nth-child(5) { transform: rotateY(240deg) translateZ(275px); }
+.card:nth-child(6) { transform: rotateY(300deg) translateZ(275px); }
+
+/* Mobile responsiveness */
+@media (min-width: 768px) {
+    .carousel {
+        width: 125px;
+        height: 1150px;
+    }
+    .card {
+        width: 300px;
+        height: 390px;
+        background-size: 310px 390px;
+    }
+}
+@media (min-width: 1280px) {
+    .carousel {
+        width: 200px;
+        height: 390px;
+        
+    }
+    .card:nth-child(1) { transform: rotateY(0deg) translateZ(210px); }
+    .card:nth-child(2) { transform: rotateY(60deg) translateZ(210px); }
+    .card:nth-child(3) { transform: rotateY(120deg) translateZ(210px); }
+    .card:nth-child(4) { transform: rotateY(180deg) translateZ(210px); }
+    .card:nth-child(5) { transform: rotateY(240deg) translateZ(210px); }
+    .card:nth-child(6) { transform: rotateY(300deg) translateZ(210px); }
+    .card {
+        width: 200px;
+        height: 240px;
+        background-size: 200px;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotateY(0deg);
+    }
+    to {
+        transform: rotateY(360deg);
+    }
+}
+
+.cool-button {
+    background: linear-gradient(45deg, #6fb1fc, #4364f7, #0052d4);
+    border: none;
+    border-radius: 50px;
+    color: white;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 0.3s, transform 0.3s;
+    outline: none;
+}
+
+.cool-button:hover {
+    background: linear-gradient(45deg, #0052d4, #4364f7, #6fb1fc);
+    transform: translateY(-3px);
+}
+
+.cool-button:active {
+    transform: translateY(1px);
+}
+
+.black-button {
+    background: linear-gradient(145deg, #1c1c1c, #3d3d3d);
+    border: none;
+    border-radius: 50px;
+    color: white;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+    outline: none;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.black-button:hover {
+    background: linear-gradient(145deg, #333, #1c1c1c);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+}
+
+.black-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+</style>
+<script>
+const carousel = document.querySelector('.carousel');
+carousel.style.animation = 'spin 30s infinite linear';
+document.addEventListener('DOMContentLoaded', () => {
+    let angle = 0;
+    const carousel = document.querySelector('.carousel');
+
+    function rotateCarousel() {
+        angle = (angle + 60) % 360; // Adjust the angle by 60 degrees
+        carousel.style.transform = `rotateY(${angle}deg)`;
+    }
+
+    setInterval(rotateCarousel, 1500); // Rotate every 2 seconds
+});
+</script>
+</body>
+</html> 

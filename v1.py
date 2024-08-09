@@ -17,7 +17,7 @@ def get_all_file_paths(directory) -> List[os.PathLike | str]:
 
 
 data = []
-target_directory = "./resources/Buku Paket SMK/teknik_elektronika_industri"
+target_directory = "./resources/Buku Paket SMK/kimia_analisis"
 all_files = get_all_file_paths(target_directory)
 
 for file in all_files:
@@ -49,9 +49,9 @@ def batch_documents(documents, batch_size):
 
 # Load existing database or create a new one
 try:
-    db = Chroma.load(persist_directory="./batch/smk_teknik_elektronika_industri.db")
+    db = Chroma.load(persist_directory="./batch/smk_kimia_analisis.db")
 except:
-    db = Chroma(embedding_function=embedding_function, persist_directory="./batch/smk_teknik_elektronika_industri.db")
+    db = Chroma(embedding_function=embedding_function, persist_directory="./batch/smk_kimia_analisis.db")
 
 # Process documents in batches
 for batch in batch_documents(split_text(data), batch_size):

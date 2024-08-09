@@ -37,3 +37,4 @@ def similarity_search_with_relevance_scores_embedding(
             query=query,
             k=k
         )
+
