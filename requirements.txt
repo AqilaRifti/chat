@@ -1,3 +1,8 @@
 streamlit
 requests
 ai21
+dotenv
+langchain-ai21
+langchain-chroma
+langchain-fireworks
+langchain-community

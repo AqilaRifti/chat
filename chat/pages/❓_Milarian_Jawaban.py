@@ -1,27 +1,15 @@
-import streamlit as st
 import time
 import itertools
+import streamlit as st
 from typing import List
+from package.generate_response import fireworks_chat_provider
 from package.embeddings import (
-    get_embedding_content_k13_sd,
     get_embedding_content_k13_smp,
     get_embedding_content_k13_sma,
-    get_embedding_content_kurmer_sd,
     get_embedding_content_kurmer_smp,
     get_embedding_content_kurmer_sma,
     LibraryAnswerResponse
 )
-from package.generate_response import fireworks_chat_provider
-
-PROMPT_TEMPLATE = """
-Answer the question based only on the following context:
-
-{context}
-
----
-
-Answer the question based on the above context: {question}
-"""
 
 INDONESIAN_PROMPT_TEMPLATE = """
 Jawab pertanyaan berdasarkan informasi berikut:
@@ -33,23 +21,34 @@ Jawab pertanyaan berdasarkan informasi berikut:
 Jawab pertanyaan ini berdasarkan konteks diatas (Jawablah dalam Bahasa Indonesia): {question}
 """
 
-def generate_prompt_english(query: str) -> str:
-    return PROMPT_TEMPLATE.format(
-        context=query, 
-        question=query
-    )
-
-
-model_id = "7qk9kpe3"
 api_key = "noHEU8RG9UdiN5kMHxmyKjxvOb6kaURXwy8qxbcmzKaYHuCn"
 
+DEFAULT_PAGE_ICON = "❓"
+DEFAULT_LAYOUT = "centered"
+DEFAULT_PAGE_TITLE = "Milarian Jawaban"
+DEFAULT_INITIAL_SIDEBAR_STATE = "collapsed"
 
-st.set_page_config(page_title="Milarian Jawaban", page_icon="❓", initial_sidebar_state="collapsed", layout="centered",
-    menu_items={
-        'Get Help': 'https://www.extremelycoolapp.com/help',
-        'Report a bug': "https://www.extremelycoolapp.com/bug",
-        'About': "# This is a header. This is an *extremely* cool app!"
+THINKING_MESSAGE = "Sedang berpikir..."
+HIDE_STREAMLIT_STYLE = """
+<style>
+    #root > div:nth-child(1) > div > div > div > div > section > div {padding-top: 0.5rem;}
+    #root > div > div > div > div > header {background: none !important;}
+    button[title="View fullscreen"]{visibility: hidden;}
+    header {visibility: hidden;}
+    @media (max-width: 50.5rem) {
+        #root > div:nth-child(1) > div > div > div > div > section > div  {
+            max-width: 100vw !important;
+        }
     }
+</style>
+"""
+
+
+st.set_page_config(
+    page_title=DEFAULT_PAGE_TITLE,
+    page_icon=DEFAULT_PAGE_ICON,
+    initial_sidebar_state=DEFAULT_INITIAL_SIDEBAR_STATE,
+    layout=DEFAULT_LAYOUT
 )
 
 
@@ -59,10 +58,6 @@ if "milarian_jawaban_messages" not in st.session_state:
 
 def send_message(message):
     st.session_state["milarian_jawaban_messages"].append(message)
-
-
-model_id = "7qk9kpe3"
-api_key = "noHEU8RG9UdiN5kMHxmyKjxvOb6kaURXwy8qxbcmzKaYHuCn"
 
 icon = ""
 with open("chat/icon.svg", "r") as icon_reader:
@@ -79,71 +74,53 @@ with st.container(border=True):
     brand, jenjang_option, kurikulum_option = st.columns((1.7, 1.1, 1.6))
     brand.markdown(html_content, unsafe_allow_html=True)
 
-
     selected_jenjang = jenjang_option.selectbox(
         "jenjang",
-        ("SD", "SMP", "SMA", "SMK"),
-        index=1,
+        ( "SMP", "SMA", "SMK"),
+        index=0,
         label_visibility="collapsed"
     )
+
     if selected_jenjang == "SMK":
         selected_kurikulum = kurikulum_option.selectbox(
             "kurikulum",
             (
                 "Akuntansi",
                 "Administrasi Perkantoran",
-                "Multimedia",
                 "Farmasi",
                 "Keperawatan",
-                "Teknik Logistik",
                 "Teknik Komputer Jaringan",
                 "Teknik Elektronika Industri",
-                "Bisnis & Pemasaran",
+                "Teknik Kendaraan Ringan Otomotif",
+                "Bisnis dan Pemasaran",
                 "Pelayaran",
                 "Perhotelan",
-                "Tata Boga"
+                "Tata Boga",
+                "Tata Busana",
+                "Tata Kecantikan",
+                "Kimia Analisis"
             ),
             label_visibility="collapsed"
         )
-    if selected_jenjang == "SD":
-        selected_kurikulum = kurikulum_option.selectbox(
-            "kurikulum",
-            ("Hybrid", "Basic"),
-            label_visibility="collapsed"
-        )
+
     if selected_jenjang == "SMP":
         selected_kurikulum = kurikulum_option.selectbox(
             "kurikulum",
             ("Kurmer", "K13"),
             label_visibility="collapsed"
         )
+
     if selected_jenjang == "SMA":
         selected_kurikulum = kurikulum_option.selectbox(
             "kurikulum",
-            ("Kurmer", "K13"),
+            ("Kurmer", "K13 (Coming Soon)"), # TODO: Add K13 Curricullum as an option
             label_visibility="collapsed"
         )
 
 
-hide_streamlit_style = """
-<style>
-    #root > div:nth-child(1) > div > div > div > div > section > div {padding-top: 0.5rem;}
-    #root > div > div > div > div > header {background: none !important;}
-    button[title="View fullscreen"]{visibility: hidden;}
-    header {visibility: hidden;}
-    @media (max-width: 50.5rem) {
-        #root > div:nth-child(1) > div > div > div > div > section > div  {
-            max-width: 100vw !important;
-        }
-    }
-</style>
-"""
 
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-THINKING_MESSAGE = "Sedang berpikir..."
-
-def generate_prompt_indonesia(query: str) -> str:
-    embedding: LibraryAnswerResponse = eval(f"get_embedding_content_{selected_kurikulum.lower()}_{selected_jenjang.lower()}(query)")
+def smp_k13_handler(query: str):
+    embedding: LibraryAnswerResponse = get_embedding_content_k13_smp(query)
     if embedding.answer_in_context:
         return INDONESIAN_PROMPT_TEMPLATE.format(
             context=embedding.answer,
@@ -152,9 +129,57 @@ def generate_prompt_indonesia(query: str) -> str:
     else:
         return f"(Jawablah pertanyaan ini dengan Bahasa Indonesia) {query}"
 
+def smp_kurmer_handler(query: str):
+    embedding: LibraryAnswerResponse = get_embedding_content_kurmer_smp(query)
+    if embedding.answer_in_context:
+        return INDONESIAN_PROMPT_TEMPLATE.format(
+            context=embedding.answer,
+            question=query
+        )
+    else:
+        return f"(Jawablah pertanyaan ini dengan Bahasa Indonesia) {query}"
 
-def answer_generator(messages: List[str]):
-    modified_message = {"role": "user", "content": generate_prompt_indonesia(messages[-1]["content"])}
+def sma_kurmer_handler(query: str):
+    embedding: LibraryAnswerResponse = get_embedding_content_kurmer_sma(query)
+    if embedding.answer_in_context:
+        return INDONESIAN_PROMPT_TEMPLATE.format(
+            context=embedding.answer,
+            question=query
+        )
+    else:
+        return f"(Jawablah pertanyaan ini dengan Bahasa Indonesia) {query}"
+
+def sma_k13_handler(query: str):
+    return "Coming Soon"
+
+def smk_handler(query: str, selected_kurikulum: str):
+    return f"{query} + {selected_kurikulum}"
+
+def generate_prompt_indonesia(query: str, selected_jenjang: str, selected_kurikulum: str) -> str:
+    if selected_jenjang == "SMK":
+        return smk_handler(query, selected_kurikulum)
+
+    elif selected_jenjang == "SMA":
+        if selected_kurikulum == "K13":
+            return sma_k13_handler(query)
+        elif selected_kurikulum == "Kurmer":
+            return sma_kurmer_handler(query)
+        else:
+            return "ERROR: INVALID CURRICULLUM"
+
+    elif selected_jenjang == "SMP":
+        if selected_kurikulum == "K13":
+            return smp_k13_handler(query)
+        elif selected_kurikulum == "Kurmer":
+            return smp_kurmer_handler(query)
+        else:
+            return "ERROR: INVALID CURRICULLUM"
+
+    else:
+        return "ERROR: INVALID GRADE"
+
+def answer_generator(messages: List[str], selected_jenjang: str, selected_kurikulum: str):
+    modified_message = {"role": "user", "content": generate_prompt_indonesia(messages[-1]["content"], selected_jenjang, selected_kurikulum)}
     new_messages = messages.copy()
     new_messages.pop()
     new_messages.append(modified_message)
@@ -171,11 +196,13 @@ def answer_generator(messages: List[str]):
     }
     resp = fireworks_chat_provider(api_key=api_key, **payload)
 
-
     for word in [*resp["choices"][0]["message"]["content"]]:
         yield word
         time.sleep(0.001)
 
+
+
+st.markdown(HIDE_STREAMLIT_STYLE, unsafe_allow_html=True)
 
 if prompt := st.chat_input():
     send_message({"role": "user", "content": prompt})
@@ -188,7 +215,12 @@ for index, message in enumerate(st.session_state["milarian_jawaban_messages"]):
         if message["content"] == st.session_state["milarian_jawaban_messages"][index-1]["content"]:
             with st.chat_message("assistant"):
                 st.write(THINKING_MESSAGE)
-                gen_for_data, gen_for_stream =itertools.tee(answer_generator(st.session_state["milarian_jawaban_messages"]))
+                gen_for_data, gen_for_stream = itertools.tee(
+                    answer_generator(
+                        st.session_state["milarian_jawaban_messages"],
+                        selected_jenjang,
+                        selected_kurikulum
+                    ))
                 st.write_stream(gen_for_stream)
                 st.write(":blue[**Bersumber dari Buku Paket Kementerian Pendidikan Dan Kebudayaan Indonesia**]")
                 message["content"] = "".join(list(gen_for_data))
