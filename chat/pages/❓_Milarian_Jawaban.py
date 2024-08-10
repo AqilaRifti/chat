@@ -10,6 +10,11 @@ from package.embeddings import (
     get_embedding_content_kurmer_sma,
     LibraryAnswerResponse
 )
+from include.loader import (
+    similarity_search_embedding,
+    ai21_embedding_function_example,
+    similarity_search_with_relevance_scores_embedding
+)
 
 INDONESIAN_PROMPT_TEMPLATE = """
 Jawab pertanyaan berdasarkan informasi berikut:
@@ -153,7 +158,14 @@ def sma_k13_handler(query: str):
     return "Coming Soon"
 
 def smk_handler(query: str, selected_kurikulum: str):
-    return f"{query} + {selected_kurikulum}"
+    embedding_data = []
+    for document in similarity_search_embedding(f"batch/smk_{selected_kurikulum.lower().replace(' ', '_')}.db", query, ai21_embedding_function_example):
+        print(document.page_content)
+        embedding_data.append(document.page_content)
+    return INDONESIAN_PROMPT_TEMPLATE.format(
+            context="".join(embedding_data),
+            question=query
+        )
 
 def generate_prompt_indonesia(query: str, selected_jenjang: str, selected_kurikulum: str) -> str:
     if selected_jenjang == "SMK":
