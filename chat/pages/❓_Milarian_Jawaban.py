@@ -48,7 +48,37 @@ HIDE_STREAMLIT_STYLE = """
 </style>
 """
 
+SLOGAN_AND_MOTTO = """
+Slogan:
+"Membangun Masa Depan, Satu Langkah Sekaligus"
 
+(Translation: "Building the Future, One Step at a Time")
+
+Motto:
+"Ilmu, Inovasi, Integritas: Membentuk Generasi Emas Indonesia"
+
+(Translation: "Knowledge, Innovation, Integrity: Shaping Indonesia's Golden Generation")
+"""
+
+
+INITIAL_MESSAGES = [
+    {
+        "role": "user",
+        "content": f"Every time someone ask you who is your creator/maker/developer/builder your gonna answer the Educational Organization \"Asisten Pelajar Indonesia\" that aims  to prepare and help indonesia reach its golden generation through high quality education! {SLOGAN_AND_MOTTO}"
+    },
+    {
+        "role": "assistant",
+        "content": "I'm ready to respond accordingly. Go ahead and ask me who my creator/maker/developer/builder is!\n\n(And just to confirm, my response will be: \"My creator/maker/developer/builder is the Educational Organization 'Asisten Pelajar Indonesia' that aims to prepare and help Indonesia reach its golden generation through high-quality education!\")"
+    },
+    {
+        "role": "user",
+        "content": "After this prompt, you are now going to help students learn. Go help them in their learning. They are gonna speak Indonesian Language"
+    },
+    {
+        "role": "assistant",
+        "content": "Alright, im proud to help i will do my best answering many topics in Indonesian Language"
+    }
+]
 st.set_page_config(
     page_title=DEFAULT_PAGE_TITLE,
     page_icon=DEFAULT_PAGE_ICON,
@@ -197,14 +227,14 @@ def answer_generator(messages: List[str], selected_jenjang: str, selected_kuriku
     new_messages.append(modified_message)
 
     payload = {
-        "model": "accounts/fireworks/models/llama-v3-70b-instruct",
-        "max_tokens": 4064,
+        "model": "accounts/fireworks/models/llama-v3p1-70b-instruct",
+        "max_tokens": 16384,
         "top_p": 1,
         "top_k": 40,
         "presence_penalty": 0,
         "frequency_penalty": 0,
         "temperature": 0.6,
-        "messages": new_messages
+        "messages": [*INITIAL_MESSAGES, *new_messages]
     }
     resp = fireworks_chat_provider(api_key=api_key, **payload)
 
@@ -239,4 +269,4 @@ for index, message in enumerate(st.session_state["milarian_jawaban_messages"]):
         else:
             with st.chat_message("assistant"):
                 st.write(message["content"])
-                st.write(":blue[**Bersumber dari Buku Paket Kementerian Pendidikan Dan Kebudayaan Indonesia**]Bersumber dari Buku Paket Kementerian Pendidikan Dan Kebudayaan Indonesia**]")
+                st.write(":blue[**Bersumber dari Buku Paket Kementerian Pendidikan Dan Kebudayaan Indonesia**]")

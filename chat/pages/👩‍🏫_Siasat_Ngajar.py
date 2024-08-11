@@ -4,55 +4,125 @@ import requests
 import time
 import itertools
 
-model_id = "7qk9kpe3"
-api_key = "noHEU8RG9UdiN5kMHxmyKjxvOb6kaURXwy8qxbcmzKaYHuCn"
-
-hide_streamlit_style = """
+API_KEY = "noHEU8RG9UdiN5kMHxmyKjxvOb6kaURXwy8qxbcmzKaYHuCn"
+HIDE_STREAMLIT_STYLE = """
 <style>
-    #root > div:nth-child(1) > div > div > div > div > section > div {padding-top: 0rem;}
+    #root > div:nth-child(1) > div > div > div > div > section > div {padding-top: 0.5rem;}
     #root > div > div > div > div > header {background: none !important;}
+    button[title="View fullscreen"]{visibility: hidden;}
+    header {visibility: hidden;}
+    @media (max-width: 50.5rem) {
+        #root > div:nth-child(1) > div > div > div > div > section > div  {
+            max-width: 100vw !important;
+        }
+    }
 </style>
 """
-
-hide_img_fs = '''
+INITIAL_GUIDE_MESSAGES = [
+    {
+        "role": "user", 
+        "content": "Apa fungsi mu?"
+    },
+    {
+        "role": "assistant",
+        "content": "Saya adalah sebuah asisten yang berguna untuk membantu para pengajar dalam kegiatan mengajarnya!"
+    }
+]
+THINKING_MESSAGE = "Sedang berpikir..."
+IMAGE_STYLE_MANIPULATION = '''
 <style>
 button[title="View fullscreen"]{
     visibility: hidden;}
+img {
+    border-radius: 1.2rem;
+}
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {...}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {...}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+img {
+    width: 700px !important;
+}
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+img {
+    width: 700px !important;
+}
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+img {
+    width: 700px !important;
+}
+}
 </style>
 '''
+
+SLOGAN_AND_MOTTO = """
+Slogan:
+"Membangun Masa Depan, Satu Langkah Sekaligus"
+
+(Translation: "Building the Future, One Step at a Time")
+
+Motto:
+"Ilmu, Inovasi, Integritas: Membentuk Generasi Emas Indonesia"
+
+(Translation: "Knowledge, Innovation, Integrity: Shaping Indonesia's Golden Generation")
+"""
+
+
+INITIAL_MESSAGES = [
+    {
+        "role": "user",
+        "content": f"Every time someone ask you who is your creator/maker/developer/builder your gonna answer the Educational Organization \"Asisten Pelajar Indonesia\" that aims  to prepare and help indonesia reach its golden generation through high quality education! {SLOGAN_AND_MOTTO}"
+    },
+    {
+        "role": "assistant",
+        "content": "I'm ready to respond accordingly. Go ahead and ask me who my creator/maker/developer/builder is!\n\n(And just to confirm, my response will be: \"My creator/maker/developer/builder is the Educational Organization 'Asisten Pelajar Indonesia' that aims to prepare and help Indonesia reach its golden generation through high-quality education!\")"
+    },
+    {
+        "role": "user",
+        "content": "After this prompt, you are now going to help teachers teach. Go help them in their journey. They are gonna speak Indonesian Language"
+    },
+    {
+        "role": "assistant",
+        "content": "Alright, im proud to help i will do my best answering many topics in Indonesian Language"
+    }
+]
 
 st.set_page_config(
     page_title="Siasat Ngajar",
     page_icon="👩‍🏫",
     initial_sidebar_state="collapsed",
     layout="centered",
-    menu_items={
-        'Get Help': 'https://www.extremelycoolapp.com/help',
-        'Report a bug': "https://www.extremelycoolapp.com/bug",
-        'About': "# This is a header. This is an *extremely* cool app!"
-    }
 )
-st.markdown(hide_img_fs, unsafe_allow_html=True)
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+st.markdown(IMAGE_STYLE_MANIPULATION, unsafe_allow_html=True)
+st.markdown(HIDE_STREAMLIT_STYLE, unsafe_allow_html=True)
 
 def answer_generator(messages: str):
-    print(messages)
     url = "https://api.fireworks.ai/inference/v1/chat/completions"
     payload = {
-        "model": "accounts/fireworks/models/mixtral-8x22b-instruct",
-        "max_tokens": 4064,
+        "model": "accounts/fireworks/models/llama-v3p1-70b-instruct",
+        "max_tokens": 16384,
         "top_p": 1,
         "top_k": 40,
         "presence_penalty": 0,
         "frequency_penalty": 0,
         "temperature": 0.6,
-        "messages": [{"role": "user", "content": "Kamu adalah seorang asisten guru yang akan membantu menyiapkan pembelajaran mulai dari sekarang"}, {"role": "assistant", "content": "Baik saya akan membantu guru sebagai asisten, ada yang bisa saya bantu?"}, *messages],
+        "messages": [*INITIAL_MESSAGES, *messages],
         "stream": False
     }
     headers = {
         "Accept": "application/json",
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {api_key}"
+        "Authorization": f"Bearer {API_KEY}"
     }
     resp = requests.request("POST", url, headers=headers, data=json.dumps(payload))
     print(resp.json())
@@ -61,28 +131,14 @@ def answer_generator(messages: str):
         time.sleep(0.01)
 
 
+st.image("chat/assets/siasat-ngajar.png")
+
 if "siasat_ngajar_messages" not in st.session_state:
-    st.session_state["siasat_ngajar_messages"] = []
+    st.session_state["siasat_ngajar_messages"] = INITIAL_GUIDE_MESSAGES
 
 
 def send_message(message):
     st.session_state["siasat_ngajar_messages"].append(message)
-
-
-with st.container(border=True):
-    spacer, jenjang_option, kurikulum_option = st.columns((1.7, 1.2, 1.3))
-    spacer.image("https://asistenpelajarindonesia.netlify.app/icon.svg", width=50)
-    jenjang_option.selectbox(
-        "jenjang",
-        ("SD", "SMP", "SMA"),
-        index=1,
-        label_visibility="collapsed"
-    )
-    kurikulum_option.selectbox(
-        "kurikulum",
-        ("Kurmer", "Kurtilas"),
-        label_visibility="collapsed"
-    )
 
 
 if prompt := st.chat_input():
@@ -96,7 +152,7 @@ for index, message in enumerate(st.session_state["siasat_ngajar_messages"]):
     else:
         if message["content"] == st.session_state["siasat_ngajar_messages"][index-1]["content"]:
             with st.chat_message("assistant"):
-                st.write("Bot thinking...")
+                st.write(THINKING_MESSAGE)
                 gen_for_data, gen_for_stream =itertools.tee(answer_generator(st.session_state["siasat_ngajar_messages"]))
                 st.write_stream(gen_for_stream)
                 message["content"] = "".join(list(gen_for_data))
