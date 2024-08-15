@@ -4,7 +4,7 @@ import requests
 import time
 import itertools
 
-API_KEY = "noHEU8RG9UdiN5kMHxmyKjxvOb6kaURXwy8qxbcmzKaYHuCn"
+API_KEY = "pfS623hAge5hEPUKymOYIGaWYIO7ruiuLk8EDIlvwGWJGXGp"
 HIDE_STREAMLIT_STYLE = """
 <style>
     #root > div:nth-child(1) > div > div > div > div > section > div {padding-top: 0.5rem;}
@@ -79,7 +79,7 @@ INITIAL_MESSAGES = [
     },
     {
         "role": "user",
-        "content": "After this prompt, you are now going to help teachers teach. Go help them in their journey. They are gonna speak Indonesian Language"
+        "content": "After this prompt, you are now going to talk to people. Go help them in their journey. They are gonna speak Indonesian Language"
     },
     {
         "role": "assistant",

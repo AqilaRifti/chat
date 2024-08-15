@@ -26,7 +26,7 @@ Jawab pertanyaan berdasarkan informasi berikut:
 Jawab pertanyaan ini berdasarkan konteks diatas (Jawablah dalam Bahasa Indonesia): {question}
 """
 
-api_key = "noHEU8RG9UdiN5kMHxmyKjxvOb6kaURXwy8qxbcmzKaYHuCn"
+api_key = "pfS623hAge5hEPUKymOYIGaWYIO7ruiuLk8EDIlvwGWJGXGp"
 
 DEFAULT_PAGE_ICON = "❓"
 DEFAULT_LAYOUT = "centered"
