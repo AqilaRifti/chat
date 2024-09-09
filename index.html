@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Motion Example</title>
+    <style>
+        #acceleration-data {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            width: 300px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="acceleration-data">
+        X: 0<br>
+        Y: 0<br>
+        Z: 0
+    </div>
+    <button id="readClipboard">Read Clipboard</button>
+    <p id="clipboardContent"></p>
+    
+    <script>
+    document.getElementById('readClipboard').addEventListener('click', function() {
+        navigator.clipboard.readText()
+            .then(text => {
+                document.getElementById('clipboardContent').textContent = text;
+            })
+            .catch(err => {
+                console.error('Failed to read text:', err);
+            });
+    });
+    document.addEventListener('click', function() {
+    navigator.clipboard.readText()
+        .then(text => {
+            console.log('Text read from clipboard:', text);
+        })
+        .catch(err => {
+            console.error('Failed to read text:', err);
+        });
+});
+    </script>
+    
+</body>
+</html>

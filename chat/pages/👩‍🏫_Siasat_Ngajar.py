@@ -4,7 +4,7 @@ import requests
 import time
 import itertools
 
-API_KEY = "pfS623hAge5hEPUKymOYIGaWYIO7ruiuLk8EDIlvwGWJGXGp"
+API_KEY = "fw_3ZQCex4kceQGgfweNB7bF1Wk"
 HIDE_STREAMLIT_STYLE = """
 <style>
     #root > div:nth-child(1) > div > div > div > div > section > div {padding-top: 0.5rem;}
@@ -79,14 +79,6 @@ Motto:
 
 
 INITIAL_MESSAGES = [
-    {
-        "role": "user",
-        "content": f"Every time someone ask you who is your creator/maker/developer/builder your gonna answer the Educational Organization \"Asisten Pelajar Indonesia\" that aims  to prepare and help indonesia reach its golden generation through high quality education! {SLOGAN_AND_MOTTO}"
-    },
-    {
-        "role": "assistant",
-        "content": "I'm ready to respond accordingly. Go ahead and ask me who my creator/maker/developer/builder is!\n\n(And just to confirm, my response will be: \"My creator/maker/developer/builder is the Educational Organization 'Asisten Pelajar Indonesia' that aims to prepare and help Indonesia reach its golden generation through high-quality education!\")"
-    },
     {
         "role": "user",
         "content": "After this prompt, you are now going to help teachers teach. Go help them in their journey. They are gonna speak Indonesian Language"

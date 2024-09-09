@@ -26,7 +26,7 @@ Jawab pertanyaan berdasarkan informasi berikut:
 Jawab pertanyaan ini berdasarkan konteks diatas (Jawablah dalam Bahasa Indonesia): {question}
 """
 
-api_key = "pfS623hAge5hEPUKymOYIGaWYIO7ruiuLk8EDIlvwGWJGXGp"
+api_key = "fw_3ZQCex4kceQGgfweNB7bF1Wk"
 
 DEFAULT_PAGE_ICON = "❓"
 DEFAULT_LAYOUT = "centered"
@@ -48,28 +48,8 @@ HIDE_STREAMLIT_STYLE = """
 </style>
 """
 
-SLOGAN_AND_MOTTO = """
-Slogan:
-"Membangun Masa Depan, Satu Langkah Sekaligus"
-
-(Translation: "Building the Future, One Step at a Time")
-
-Motto:
-"Ilmu, Inovasi, Integritas: Membentuk Generasi Emas Indonesia"
-
-(Translation: "Knowledge, Innovation, Integrity: Shaping Indonesia's Golden Generation")
-"""
-
 
 INITIAL_MESSAGES = [
-    {
-        "role": "user",
-        "content": f"Every time someone ask you who is your creator/maker/developer/builder your gonna answer the Educational Organization \"Asisten Pelajar Indonesia\" that aims  to prepare and help indonesia reach its golden generation through high quality education! {SLOGAN_AND_MOTTO}"
-    },
-    {
-        "role": "assistant",
-        "content": "I'm ready to respond accordingly. Go ahead and ask me who my creator/maker/developer/builder is!\n\n(And just to confirm, my response will be: \"My creator/maker/developer/builder is the Educational Organization 'Asisten Pelajar Indonesia' that aims to prepare and help Indonesia reach its golden generation through high-quality education!\")"
-    },
     {
         "role": "user",
         "content": "After this prompt, you are now going to help students learn. Go help them in their learning. They are gonna speak Indonesian Language"
@@ -95,13 +75,10 @@ def send_message(message):
     st.session_state["milarian_jawaban_messages"].append(message)
 
 icon = ""
-with open("chat/icon.svg", "r") as icon_reader:
-    icon = icon_reader.read()
-
 link_url = "http://google.com.au"
 html_content = f'''
 <a href="{link_url}" target="_blank">
-    {icon}
+    <img src="https://raw.githubusercontent.com/AqilaRifti/site/main/public/logo_air.png" style="width: 40px;height: 40px" />
 </a>
 '''
 
